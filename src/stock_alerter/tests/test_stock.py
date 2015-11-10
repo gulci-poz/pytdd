@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from .. stock import Stock
 
 #StockTest zawiera wszystkie test cases dla klasy Stock
@@ -13,6 +14,19 @@ class StockTest(unittest.TestCase):
         #jeśli warunek nie będzie spełniony (cena nie będzie None)
         #wyrzuca AssertionError i test nie przechodzi (failure)
         self.assertIsNone(stock.price)
+
+    #wzorzec arrange-act-assert
+    #arrange - ustawiamy kontekst, np. tworzymy obiekt
+    #act - wykonujemy akcję, którą chcemy przetestować
+    #assert - sprawdzamy rezultat z oczekiwaniem
+    def test_stock_update(self):
+        """update ustawia cenę i timestamp zmiany
+        unittest wydrukuje tylko pierwszą linię docstring jako podsumowanie
+        """
+        goog = Stock("GOOG")
+        #nie musimy pisać price = 10
+        goog.update(datetime(2014, 10, 11), 10)
+        self.assertEqual(10, goog.price)
 
 #status: jeden znak - jeden test; E - Error, F - Failure, . - test passed
 
@@ -36,4 +50,7 @@ class StockTest(unittest.TestCase):
 #dwa podejścia i ich praktyczne zastosowanie:
 #dwa foldery w root - dobre do podziału na samodzielne moduły
 #submoduł test w folerze z kodem - jeśli nie chcemy testów w paczce z produkcyjną aplikacją
+
 #TDD Cycle - Red, Green, Refactor
+#testy to wykonywalne specyfikacje wymagań
+#mamy synchronizację między wymaganiami i implementacją
