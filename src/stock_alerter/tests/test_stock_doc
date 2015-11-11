@@ -1,0 +1,89 @@
+Podsumowanie metod:
+
+assertFalse(x, msg)
+assertTrue(x, msg)
+
+1 -> assertIsNone(x, msg)
+assertIsNotNone(x, msg)
+
+2 -> assertEqual(x, y, msg)
+assertNotEqual(x, y, msg)
+
+3 -> assertAlmostEqual(x, y, places, msg, delta)
+assertNotAlmostEqual(x, y, places, msg, delta)
+
+assertGreater(x, y, msg)
+assertGreaterEqual(x, y, msg)
+
+assertLess(x, y, msg)
+assertLessEqual(x, y, msg)
+
+assertIs(x, y, msg)
+assertIsNot(x, y, msg)
+
+identyfikujemy tożsamość obiektu, a nie jego wartość (assertEqual)
+
+import unittest
+test = unittest.TestCase()
+test.assertEqual([1, 2], [1, 2])
+test.assertIs([1, 2], [1, 2])
+
+assertIn(x, seq, msg)
+assertNotIn(x, seq, msg)
+
+sprawdzamy stringi, listy, zbiory i inne struktury, dla których działa in
+
+assertIsInstance(x, cls, msg)
+assertNotIsInstance(x, cls, msg)
+
+cls może być krotką zawierającą kilka klas do sprawdzenia
+
+assertRegex(text, regex, msg)
+assertNotRegex(text, regex, msg)
+
+4 -> assert Raises(exception, callable, *args, **kwargs)
+4a -> assertRaises(exception) - zwraca context manager, który testujemy w with
+assertRaisesRegex(exception, regex, callable, *args, **kwargs)
+
+sprawdzanie czy wiadomość wyjątku pasuje do wyrażenia regularn
+
+5 -> fail(msg)
+
+assertWarns(warning, callable, *args, **kwargs)
+assertWarnsRegex(warning, regex, callable, *args, **kwargs)
+
+analogicznie do assertRaises(), sprawdzamy wyrzucenie ostrzeżenia
+
+msg jest opcjonalnym parametrem
+msg jest zwracany w przypadku niepowodzenia asercji
+istnieje domyślna wiadomość msg
+msg jest przeważnie używany z fail()
+
+asercje generyczne:
+
+assertTrue(x in seq)
+assertTrue(x == 10)
+
+w przypadku specyficznych asersji dostajemy lepszy komunikat błędu
+gdzie jest to możliwe, lepiej używać asercji specyficznych
+
+Metody dla testów:
+
+tearDown()
+wykonywana po teście, robimy cleanup
+
+setUpClass()
+tearDownClass()
+
+zaimplementowane jako metody klasy, wykonują setup/cleanup dla grupy testów zawartych w klasie
+
+setUpModule()
+tearDownModule()
+
+setup/cleanup dla klass i metod robi się w przypadku drogich setupów, np. połączenie do bazy danych lub zdalnego serwera
+
+inicjalizacja na poziomie klasy i modułu jest dzielona między wszystkie testy
+ważne, żeby modyfikacje z jednego testu nie miały wpływu na inne
+mamy sprawdzanie początkowej ceny (powinno być None) - ten test musi być zrobiony pierwszy, bo jeśli najpierw przetestowalibyśmy update, to test z None nie powiedzie się
+porządek testów nie jest zagwarantowany!!! testy powinny być niezależne
+zatem inicjalizacja modułu i klasy do naszych testów Stock nie nadają się (przynajmniej nie dla obiektu klasy Stock)
