@@ -87,3 +87,20 @@ ważne, żeby modyfikacje z jednego testu nie miały wpływu na inne
 mamy sprawdzanie początkowej ceny (powinno być None) - ten test musi być zrobiony pierwszy, bo jeśli najpierw przetestowalibyśmy update, to test z None nie powiedzie się
 porządek testów nie jest zagwarantowany!!! testy powinny być niezależne
 zatem inicjalizacja modułu i klasy do naszych testów Stock nie nadają się (przynajmniej nie dla obiektu klasy Stock)
+
+kruchość testów (tests brittleness)
+w idealnej sytuacji test powinien sprawdzać interfejs, a nie implementację (czasami nie da się tego uniknąć lub po prostu musimy sprawdzić część implementacyjną, np. testowanie cache)
+to poprzez interfejsy porozumiewają sie jednostki kodu
+testy moga sie nie powieść z trzech powodów:
+- nowy bug w kodzie testowym
+- test jest ściśle powiązany (tightly coupled) z implementacją: zmiana nazwy zmiennej, zmiana struktury danych, modyfikacja wewnętrznego designu; nie wprowadzamy buga
+- test wymaga zasobów, które są nieosiągalne, np. nie działający serwer
+unikamy drugiej i trzeciej możliwości
+co robimy:
+- unikamy szczegółów implementacyjnych w testach, korzystamy z publicznie dostępnych interfejsów (np. metody interfejsów w setupie lub asercji)
+- w razie konieczności sprawdzamy część implementacyjną
+- jeśli korzystanie z interfejsów jest szczególnie zagmatwane lub niemożliwe, to sięgamy do implementacji
+- jeśli jesteśmy dość pewni, że szczegóły implementacyjne nie zmienią się, to korzystamy z kodu z implementacji
+tradeoff: wygoda, czytelność testu, kruchość testu
+
+robimy małe zmiany za jednym razem w momencie, gdy testy nie przechodzą, łatwiejsza jest wtedy walidacja zmian
