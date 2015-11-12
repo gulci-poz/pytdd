@@ -4,6 +4,7 @@ from .. stock import Stock
 from .. rule import PriceRule
 from .. rule import AndRule
 
+#python -m unittest stock_alerter.tests.test_rule.PriceRuleTest
 class PriceRuleTest(unittest.TestCase):
     #potrzebujemy jednego obiektu typu Stock i listy takich obiektów do testowania klasy PriceRule, dlatego setup może być uogólniony dla całej klasy (nie trzeba będzie dla każdego testu robić tego samego)
     #do exchange odwołujemy się potem self.exchange (jako do części klasy)
@@ -39,6 +40,7 @@ class PriceRuleTest(unittest.TestCase):
         self.assertEqual({"MSFT"}, rule.depends_on())
 
 
+#python -m unittest stock_alerter.tests.test_rule.AndRuleTest
 class AndRuleTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -58,6 +60,3 @@ class AndRuleTest(unittest.TestCase):
         rule = AndRule(PriceRule("GOOG", lambda stock: stock.price > 8),
             PriceRule("MSFT", lambda stock: stock.price > 10))
         self.assertTrue(rule.matches(self.exchange))
-
-#python -m unittest stock_alerter.tests.test_rule.PriceRuleTest
-#python -m unittest stock_alerter.tests.test_rule.AndRuleTest
